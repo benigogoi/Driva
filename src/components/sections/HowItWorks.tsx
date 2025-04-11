@@ -31,7 +31,7 @@ const HowItWorks: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Step 1 */}
           <Step 
-            title="Book a Driver"
+                        title="Book a Driver"
             description="Book via our simple form or WhatsApp us directly for immediate assistance."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +42,7 @@ const HowItWorks: React.FC = () => {
           
           {/* Step 2 */}
           <Step 
-            title="Driver Arrives On-Time"
+                        title="Driver Arrives On-Time"
             description="Our professional driver arrives punctually at your doorstep, ready to serve."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@ const HowItWorks: React.FC = () => {
           
           {/* Step 3 */}
           <Step 
-            title="Travel Safely & Pay After"
+                        title="Travel Safely & Pay After"
             description="Enjoy a safe journey with our trusted driver. Pay only after your trip is complete."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -299,7 +299,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
             </div>
             <button
               type="button"
-              onClick={() => showDateTimePicker('hiddenDatePicker')}
+              
               className="w-full text-left pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors text-gray-500"
             >
               {formData.dateTime && formData.dateTime.split('T')[0] ? 
@@ -331,7 +331,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
             </div>
             <button
               type="button"
-              onClick={() => showDateTimePicker('hiddenTimePicker')}
+              
               className="w-full text-left pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors text-gray-500"
             >
               {formData.dateTime && formData.dateTime.split('T')[1] ? 
@@ -498,7 +498,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
                   </div>
                   <button
                     type="button"
-                    onClick={() => showDateTimePicker('hiddenFullFormDatePicker')}
+                    
                     className={`w-full text-left pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                       errors.dateTime ? 'border-red-500' : ''
                     } text-gray-700`}
@@ -537,7 +537,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
                   </div>
                   <button
                     type="button"
-                    onClick={() => showDateTimePicker('hiddenFullFormTimePicker')}
+                    
                     className={`w-full text-left pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                       errors.dateTime ? 'border-red-500' : ''
                     } text-gray-700`}
