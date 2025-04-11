@@ -1,6 +1,6 @@
 import React from "react";
 import aboutImage from "../../assets/aboutImg.svg"; // Adjust the path as necessary
-import { Link } from "react-router-dom";
+// Removed unused import: import { Link } from "react-router-dom";
 
 const About: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const About: React.FC = () => {
         <div className="md:col-span-7">
           <h2 className="text-3xl font-bold mb-4">About Driva</h2>
           <p className="text-gray-700 text-lg mb-4">
-            Driva is Guwahati’s trusted local driver network offering hourly,
+            Driva is Guwahati's trusted local driver network offering hourly,
             outstation, and full-day driver hire at affordable rates. We believe
             in safety, reliability, and convenience for every trip.
           </p>

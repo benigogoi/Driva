@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FormData {
   fullName: string;
@@ -25,11 +25,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   
-  // Remove unused state variables
+  // Removed unused state variables and refs
   // const [showDateModal, setShowDateModal] = useState(false);
   // const [showTimeModal, setShowTimeModal] = useState(false);
-  const dateInputRef = useRef<HTMLInputElement>(null);
-  const timeInputRef = useRef<HTMLInputElement>(null);
+  // const dateInputRef = useRef<HTMLInputElement>(null);
+  // const timeInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -92,10 +92,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
       }));
     }
   }, []);
-  
-  // Removed unused functions while keeping the referenced variables
-  // handleDateSelect, handleTimeSelect, openDatePicker, openTimePicker, 
-  // handleTodayClick, handleNowClick
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
