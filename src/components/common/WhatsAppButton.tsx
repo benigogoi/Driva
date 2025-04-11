@@ -9,7 +9,7 @@ interface WhatsAppButtonProps {
 }
 
 const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
-  phoneNumber = '+91XXXXXXXXXX', // Replace with actual number when available
+  phoneNumber = '+918135936544', // Replace with actual number when available
   message = 'Hi, I need a driver from DRIVA.co.IN',
   size = 'md',
   fullWidth = false,
@@ -47,7 +47,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
       `}
     >
       <svg 
-        className="w-5 h-5 mr-2" 
+        className="w-10 h-10 mr-2" 
         fill="currentColor" 
         viewBox="0 0 24 24" 
         xmlns="http://www.w3.org/2000/svg"

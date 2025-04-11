@@ -3,7 +3,7 @@ import Contact from '../components/sections/Contact';
 
 const ContactPage: React.FC = () => {
   return (
-    <div className="py-8">
+    <div className="pt-24 pb-8"> {/* Changed py-8 to pt-24 pb-8 to add more top padding */}
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Page Header */}
         <div className="text-center mb-12">

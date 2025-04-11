@@ -24,10 +24,10 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  // Date and Time picker related states
-  const [showDateModal, setShowDateModal] = useState(false);
-  const [showTimeModal, setShowTimeModal] = useState(false);
+  
+  // Remove unused state variables
+  // const [showDateModal, setShowDateModal] = useState(false);
+  // const [showTimeModal, setShowTimeModal] = useState(false);
   const dateInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,80 +75,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // Handle Date Selection
-  const handleDateSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentTimeValue = formData.dateTime ? formData.dateTime.split('T')[1] : '12:00';
-    setFormData(prev => ({
-      ...prev,
-      dateTime: `${e.target.value}T${currentTimeValue}`
-    }));
-    setShowDateModal(false);
-  };
   
-  // Handle Time Selection
-  const handleTimeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentDateValue = formData.dateTime ? formData.dateTime.split('T')[0] : new Date().toISOString().split('T')[0];
-    setFormData(prev => ({
-      ...prev,
-      dateTime: `${currentDateValue}T${e.target.value}`
-    }));
-    setShowTimeModal(false);
-  };
-  
-  // Open date picker modal
-  const openDatePicker = () => {
-    setShowDateModal(true);
-    // Focus after modal is shown
-    setTimeout(() => {
-      if (dateInputRef.current) {
-        dateInputRef.current.focus();
-        dateInputRef.current.click();
-      }
-    }, 100);
-  };
-  
-  // Open time picker modal
-  const openTimePicker = () => {
-    setShowTimeModal(true);
-    // Focus after modal is shown
-    setTimeout(() => {
-      if (timeInputRef.current) {
-        timeInputRef.current.focus();
-        timeInputRef.current.click();
-      }
-    }, 100);
-  };
-  
-  // Set to today
-  const handleTodayClick = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    const currentTime = formData.dateTime ? formData.dateTime.split('T')[1] : '12:00';
-    
-    setFormData(prev => ({
-      ...prev,
-      dateTime: `${year}-${month}-${day}T${currentTime}`
-    }));
-    setShowDateModal(false);
-  };
-  
-  // Set to now
-  const handleNowClick = () => {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const currentDate = formData.dateTime ? formData.dateTime.split('T')[0] : new Date().toISOString().split('T')[0];
-    
-    setFormData(prev => ({
-      ...prev,
-      dateTime: `${currentDate}T${hours}:${minutes}`
-    }));
-    setShowTimeModal(false);
-  };
-
+  // Set today's date as default if not already set
   useEffect(() => {
     if (!formData.dateTime) {
       const now = new Date();
@@ -164,6 +92,10 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
       }));
     }
   }, []);
+  
+  // Removed unused functions while keeping the referenced variables
+  // handleDateSelect, handleTimeSelect, openDatePicker, openTimePicker, 
+  // handleTodayClick, handleNowClick
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,18 +133,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
     }
   };
 
-  // Conditionally render the form based on compact prop
+  // Compact form for hero section (Uber-style)
   if (compact) {
-    return renderCompactForm();
-  }
-
-  return renderFullForm();
-
-  // Compact form render method
-  function renderCompactForm() {
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Similar compact form implementation as before */}
+        {/* Name and Phone Number fields (side by side) */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <input
@@ -230,8 +155,144 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
             {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
           </div>
           
-          {/* Rest of the compact form remains the same */}
+          <div>
+            <input
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              placeholder="10-digit mobile number"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+              className={`w-full px-4 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors ${
+                errors.phoneNumber ? 'border-red-500' : ''
+              }`}
+            />
+            {errors.phoneNumber && <p className="mt-1 text-xs text-red-600">{errors.phoneNumber}</p>}
+          </div>
         </div>
+        
+        {/* Pickup and Dropoff Locations (side by side) */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Pickup Location */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <input
+              id="pickupLocation"
+              name="pickupLocation"
+              type="text"
+              placeholder="Pickup location"
+              value={formData.pickupLocation}
+              onChange={handleChange}
+              required
+              className={`w-full pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors ${
+                errors.pickupLocation ? 'border-red-500' : ''
+              }`}
+            />
+            {errors.pickupLocation && <p className="mt-1 text-xs text-red-600">{errors.pickupLocation}</p>}
+          </div>
+          
+          {/* Dropoff Location */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <input
+              id="dropoffLocation"
+              name="dropoffLocation"
+              type="text"
+              placeholder="Dropoff location"
+              value={formData.dropoffLocation}
+              onChange={handleChange}
+              required
+              className={`w-full pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors ${
+                errors.dropoffLocation ? 'border-red-500' : ''
+              }`}
+            />
+            {errors.dropoffLocation && <p className="mt-1 text-xs text-red-600">{errors.dropoffLocation}</p>}
+          </div>
+        </div>
+        
+        {/* Date and Time selectors (side by side) */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <button
+              type="button"
+              className="w-full text-left pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors text-gray-500"
+            >
+              {formData.dateTime && formData.dateTime.split('T')[0] ? 
+                new Date(formData.dateTime.split('T')[0]).toLocaleDateString() : 
+                'Today'}
+            </button>
+            <input
+              id="hiddenDatePicker"
+              name="datePicker"
+              type="date"
+              value={formData.dateTime ? formData.dateTime.split('T')[0] : ''}
+              onChange={(e) => {
+                const currentTimeValue = formData.dateTime ? formData.dateTime.split('T')[1] : '00:00';
+                setFormData(prev => ({
+                  ...prev,
+                  dateTime: `${e.target.value}T${currentTimeValue}`
+                }));
+              }}
+              className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+              aria-label="Select date"
+            />
+          </div>
+          
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <button
+              type="button"
+              className="w-full text-left pl-12 py-4 bg-gray-100 border-0 rounded-md focus:ring-1 focus:ring-blue-500 focus:bg-white transition-colors text-gray-500"
+            >
+              {formData.dateTime && formData.dateTime.split('T')[1] ? 
+                formData.dateTime.split('T')[1].substring(0, 5) : 
+                'Now'}
+            </button>
+            <input
+              id="hiddenTimePicker"
+              name="timePicker"
+              type="time"
+              value={formData.dateTime ? formData.dateTime.split('T')[1] : ''}
+              onChange={(e) => {
+                const currentDateValue = formData.dateTime ? formData.dateTime.split('T')[0] : new Date().toISOString().split('T')[0];
+                setFormData(prev => ({
+                  ...prev,
+                  dateTime: `${currentDateValue}T${e.target.value}`
+                }));
+              }}
+              className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+              aria-label="Select time"
+            />
+          </div>
+        </div>
+        
+        {/* Hidden datetime field to store the combined value */}
+        <input
+          id="dateTime"
+          name="dateTime"
+          type="hidden"
+          value={formData.dateTime}
+        />
         
         <button
           type="submit"
@@ -244,58 +305,213 @@ const BookingForm: React.FC<BookingFormProps> = ({ compact = false }) => {
     );
   }
 
-  // Full form render method
-  function renderFullForm() {
-    return (
-      <section id="booking" className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8">Book a Driver</h2>
-            
-            {submitSuccess && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                <p>Your booking has been submitted successfully! We'll contact you shortly to confirm.</p>
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Similar full form implementation as before */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    placeholder="Your full name"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    required
-                    className={`w-full px-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                      errors.fullName ? 'border-red-500' : ''
-                    }`}
-                  />
-                  {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
-                </div>
-                
-                {/* Rest of the full form remains the same */}
+  // Full form for booking page (also updated to match the new layout)
+  return (
+    <section id="booking" className={compact ? '' : 'py-16'}>
+      <div className={compact ? '' : 'container mx-auto px-4'}>
+        <div className={compact ? '' : 'max-w-2xl mx-auto'}>
+          {!compact && <h2 className="text-3xl font-bold text-center mb-8">Book a Driver</h2>}
+          
+          {submitSuccess && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+              <p>Your booking has been submitted successfully! We'll contact you shortly to confirm.</p>
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  placeholder="Your full name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  className={`w-full px-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                    errors.fullName ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
               </div>
               
-              <button
-                type="submit"
-                className="w-full py-3 bg-blue-600 text-white text-base font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Booking'}
-              </button>
-            </form>
-          </div>
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="10-digit mobile number"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  required
+                  className={`w-full px-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                    errors.phoneNumber ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.phoneNumber && <p className="mt-1 text-xs text-red-600">{errors.phoneNumber}</p>}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="pickupLocation" className="block text-sm font-medium text-gray-700 mb-1">
+                  Pickup Address <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <input
+                    id="pickupLocation"
+                    name="pickupLocation"
+                    type="text"
+                    placeholder="Your pickup location"
+                    value={formData.pickupLocation}
+                    onChange={handleChange}
+                    required
+                    className={`w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                      errors.pickupLocation ? 'border-red-500' : ''
+                    }`}
+                  />
+                </div>
+                {errors.pickupLocation && <p className="mt-1 text-xs text-red-600">{errors.pickupLocation}</p>}
+              </div>
+              
+              <div>
+                <label htmlFor="dropoffLocation" className="block text-sm font-medium text-gray-700 mb-1">
+                  Dropoff Address <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <input
+                    id="dropoffLocation"
+                    name="dropoffLocation"
+                    type="text"
+                    placeholder="Your destination"
+                    value={formData.dropoffLocation}
+                    onChange={handleChange}
+                    required
+                    className={`w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                      errors.dropoffLocation ? 'border-red-500' : ''
+                    }`}
+                  />
+                </div>
+                {errors.dropoffLocation && <p className="mt-1 text-xs text-red-600">{errors.dropoffLocation}</p>}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="datePicker" className="block text-sm font-medium text-gray-700 mb-1">
+                  Date <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <button
+                    type="button"
+                    className={`w-full text-left pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                      errors.dateTime ? 'border-red-500' : ''
+                    } text-gray-700`}
+                  >
+                    {formData.dateTime && formData.dateTime.split('T')[0] ? 
+                      new Date(formData.dateTime.split('T')[0]).toLocaleDateString() : 
+                      'Today'}
+                  </button>
+                  <input
+                    id="hiddenFullFormDatePicker"
+                    name="datePicker"
+                    type="date"
+                    value={formData.dateTime ? formData.dateTime.split('T')[0] : ''}
+                    onChange={(e) => {
+                      const currentTimeValue = formData.dateTime ? formData.dateTime.split('T')[1] : '00:00';
+                      setFormData(prev => ({
+                        ...prev,
+                        dateTime: `${e.target.value}T${currentTimeValue}`
+                      }));
+                    }}
+                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+                  />
+                </div>
+                {errors.dateTime && <p className="mt-1 text-xs text-red-600">{errors.dateTime}</p>}
+              </div>
+              
+              <div>
+                <label htmlFor="timePicker" className="block text-sm font-medium text-gray-700 mb-1">
+                  Time <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <button
+                    type="button"
+                    className={`w-full text-left pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                      errors.dateTime ? 'border-red-500' : ''
+                    } text-gray-700`}
+                  >
+                    {formData.dateTime && formData.dateTime.split('T')[1] ? 
+                      formData.dateTime.split('T')[1].substring(0, 5) : 
+                      'Now'}
+                  </button>
+                  <input
+                    id="hiddenFullFormTimePicker"
+                    name="timePicker"
+                    type="time"
+                    value={formData.dateTime ? formData.dateTime.split('T')[1] : ''}
+                    onChange={(e) => {
+                      const currentDateValue = formData.dateTime ? formData.dateTime.split('T')[0] : new Date().toISOString().split('T')[0];
+                      setFormData(prev => ({
+                        ...prev,
+                        dateTime: `${currentDateValue}T${e.target.value}`
+                      }));
+                    }}
+                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+                  />
+                </div>
+              </div>
+              
+              {/* Hidden datetime field to store the combined value */}
+              <input
+                id="fullFormDateTime"
+                name="dateTime"
+                type="hidden"
+                value={formData.dateTime}
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 text-white text-base font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit Booking'}
+            </button>
+          </form>
         </div>
-      </section>
-    );
-  }
+      </div>
+    </section>
+  );
 };
 
 export default BookingForm;
