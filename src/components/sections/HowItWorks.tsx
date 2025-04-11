@@ -13,9 +13,9 @@ const Step: React.FC<StepProps> = ({ number, title, description, icon }) => {
       <div className="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4">
         {icon}
       </div>
-      {/* <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center mb-4">
+      <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center absolute -top-4">
         <span className="font-bold">{number}</span>
-      </div> */}
+      </div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-gray-600 max-w-xs mx-auto">{description}</p>
     </div>
@@ -31,7 +31,8 @@ const HowItWorks: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Step 1 */}
           <Step 
-                        title="Book a Driver"
+            number={1}
+            title="Book a Driver"
             description="Book via our simple form or WhatsApp us directly for immediate assistance."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +43,8 @@ const HowItWorks: React.FC = () => {
           
           {/* Step 2 */}
           <Step 
-                        title="Driver Arrives On-Time"
+            number={2}
+            title="Driver Arrives On-Time"
             description="Our professional driver arrives punctually at your doorstep, ready to serve."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +56,8 @@ const HowItWorks: React.FC = () => {
           
           {/* Step 3 */}
           <Step 
-                        title="Travel Safely & Pay After"
+            number={3}
+            title="Travel Safely & Pay After"
             description="Enjoy a safe journey with our trusted driver. Pay only after your trip is complete."
             icon={
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
