@@ -4,8 +4,7 @@ import BookingForm from "../sections/BookingForm";
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative text-white py-12 md:py-20 px-4 overflow-hidden bg-gradient-to-br from-[#0D1117] via-[#0F1A2D] to-[#0D1117]">
-
+    <section className="relative text-white pt-28 pb-12 md:pt-36 md:pb-20 px-4 overflow-hidden bg-gradient-to-br from-[#0D1117] via-[#0F1A2D] to-[#0D1117]">
       {/* Radial orbit lines background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_1px,_transparent_2px)] bg-[length:60px_60px]" />
@@ -20,7 +19,6 @@ const Hero: React.FC = () => {
       {/* Hero content container */}
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
           {/* Left Side - Hero Text */}
           <div className="lg:col-span-5 text-center lg:text-left">
             <h1 className="text-5xl sm:text-6xl font-bold leading-tight mb-4">
@@ -38,7 +36,6 @@ const Hero: React.FC = () => {
               <BookingForm compact />
             </div>
           </div>
-
         </div>
       </div>
     </section>
